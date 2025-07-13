@@ -182,3 +182,47 @@ body {
     transform: translateX(-50%) !important;
   }
 }
+
+/* ==== Pie de página ==== */
+#pie-pagina {
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: sans-serif;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+#pie-pagina p {
+  margin: 0;
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  font-weight: normal; /* Asegura que no tenga negritas */
+}
+
+/* Animación para móviles (temporalmente) */
+@keyframes mostrarOcultar {
+  0%, 80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+    visibility: hidden;
+  }
+}
+
+/* Mostrar solo temporalmente en móviles */
+@media (max-width: 768px) {
+  #pie-pagina {
+    display: block;
+    animation: mostrarOcultar 5s forwards;
+  }
+}
+
