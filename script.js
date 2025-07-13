@@ -1,16 +1,17 @@
 // =============================
-// Configuración Inicial del Mapa
+// Crear el mapa
 // =============================
-
-// Capas base
-var capa1 = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
-  maxZoom: 18,
-  attribution: '&copy; Stadia Maps, OpenStreetMap contributors'
+var map = L.map('map', {
+  center: [28.67, -106.1],
+  zoom: 11
 });
 
-var capa2 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-var capa3 = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png');
+// =============================
+// Capas base funcionales
+// =============================
+var capaBase = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
 
 var capaEsriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles © Esri'
@@ -28,17 +29,10 @@ var capaCartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/
   attribution: '&copy; CartoDB'
 });
 
-// Crear el mapa
-var map = L.map('map', {
-  center: [28.67, -106.1],
-  zoom: 11,
-  layers: [capa1] // capa inicial
-});
-
 // =============================
 // Minimapa
 // =============================
-new L.Control.MiniMap(capa2, {
+new L.Control.MiniMap(capaBase, {
   toggleDisplay: true,
   minimized: false,
   position: 'bottomleft'
@@ -158,10 +152,11 @@ var capaCuencas = L.tileLayer.wms('https://gaia.inegi.org.mx/NLB/tunnel/wms/wms6
   version: '1.1.1'
 });
 
+// =============================
+// Selector de capas
+// =============================
 var baseMaps = {
-  "Claro Stadia": capa1,
-  "OSM": capa2,
-  "Oscuro Stadia": capa3,
+  "OpenStreetMap": capaBase,
   "Esri Satélite": capaEsriSat,
   "Esri Topográfico": capaEsriTopo,
   "Carto Light": capaCartoLight,
@@ -178,6 +173,5 @@ L.control.layers(baseMaps, overlayMaps).addTo(map);
 // Botón de Imprimir
 // =============================
 L.easyButton(`<img src="print.jpg" style="width:20px; height:20px;">`, function(btn, map){
-  window.print(); // Acción de imprimir
+  window.print();
 }, 'Imprimir mapa').addTo(map);
-
