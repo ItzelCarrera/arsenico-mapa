@@ -36,13 +36,51 @@ var map = L.map('map', {
 });
 
 // =============================
-// Minimapa
+// Minimapa Mejorado
 // =============================
-new L.Control.MiniMap(capa2, {
-  toggleDisplay: true,
-  minimized: false,
-  position: 'bottomleft'
+var miniMapLayer = capa2; // Capa inicial para el minimapa
+var miniMap = new L.Control.MiniMap(miniMapLayer, {
+    toggleDisplay: true,
+    minimized: false,
+    position: 'bottomleft',
+    aimingRectOptions: {
+        color: "#ff7800",
+        weight: 1,
+        clickable: false
+    },
+    shadowRectOptions: {
+        color: "#000000",
+        weight: 1,
+        clickable: false,
+        opacity: 0,
+        fillOpacity: 0
+    },
+    width: 150,
+    height: 150,
+    zoomLevelOffset: -5
 }).addTo(map);
+
+// Actualizar el minimapa cuando cambia la capa base
+map.on('baselayerchange', function(e) {
+    // Para capas normales (no WMS)
+    if (e.layer instanceof L.TileLayer && !(e.layer instanceof L.TileLayer.WMS)) {
+        // Clonar la capa para el minimapa
+        var newLayer = L.tileLayer(e.layer._url, {
+            attribution: e.layer.options.attribution,
+            maxZoom: e.layer.options.maxZoom
+        });
+        
+        // Cambiar la capa del minimapa
+        miniMap.changeLayer(newLayer);
+        
+        // Ajustar visualización para capas oscuras
+        if (e.name.includes('Oscuro') || e.name.includes('Dark')) {
+            miniMap.getContainer().style.filter = 'invert(1) hue-rotate(180deg) brightness(1.1)';
+        } else {
+            miniMap.getContainer().style.filter = 'none';
+        }
+    }
+});
 
 // =============================
 // Escala
@@ -172,7 +210,7 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-  "Áreas de concentración pozos INEGI Aguas Subterráneas 1:250 000 (1996-2008)": capaCuencas
+  "Áreas de concentración pozos INEGI Aguas Subterráneas 1:250 000 (1996-2008)": capaCuencas
 };
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);

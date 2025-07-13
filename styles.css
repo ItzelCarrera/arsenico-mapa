@@ -31,12 +31,26 @@ body {
   border-radius: 6px;
   font-family: sans-serif;
   box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  /* Animación solo para móviles */
+  animation: mostrarOcultar 5s forwards;
 }
 
 #titulo-mapa h2 {
   margin: 0;
   font-size: 18px;
   text-align: center;
+}
+
+@keyframes mostrarOcultar {
+  0%, 80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
+    visibility: hidden;
+  }
 }
 
 /* ==== Logos en el mapa ==== */
@@ -156,5 +170,15 @@ body {
   .leaflet-control.easy-button-button img {
     width: 20px;
     height: 20px;
+  }
+}
+
+/* ==== Estilos específicos para laptops/desktops ==== */
+@media (min-width: 769px) {
+  #titulo-mapa {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) !important;
   }
 }
