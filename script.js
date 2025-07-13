@@ -1,17 +1,16 @@
 // =============================
-// Crear el mapa
+// Configuración Inicial del Mapa
 // =============================
-var map = L.map('map', {
-  center: [28.67, -106.1],
-  zoom: 11
+
+// Capas base
+var capa1 = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=2b965822-ba3f-4bff-9fdd-f1038c96fb9f', {
+  maxZoom: 20,
+  attribution: '&copy; Stadia Maps, &copy; OpenMapTiles, &copy; OpenStreetMap'
 });
 
-// =============================
-// Capas base funcionales
-// =============================
-var capaBase = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+var capa2 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+var capa3 = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=2b965822-ba3f-4bff-9fdd-f1038c96fb9f');
 
 var capaEsriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
   attribution: 'Tiles © Esri'
@@ -29,10 +28,17 @@ var capaCartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/
   attribution: '&copy; CartoDB'
 });
 
+// Crear el mapa
+var map = L.map('map', {
+  center: [28.67, -106.1],
+  zoom: 11,
+  layers: [capa1] // capa inicial
+});
+
 // =============================
 // Minimapa
 // =============================
-new L.Control.MiniMap(capaBase, {
+new L.Control.MiniMap(capa2, {
   toggleDisplay: true,
   minimized: false,
   position: 'bottomleft'
@@ -153,10 +159,12 @@ var capaCuencas = L.tileLayer.wms('https://gaia.inegi.org.mx/NLB/tunnel/wms/wms6
 });
 
 // =============================
-// Selector de capas
+// Control de capas
 // =============================
 var baseMaps = {
-  "OpenStreetMap": capaBase,
+  "Claro Stadia": capa1,
+  "OSM": capa2,
+  "Oscuro Stadia": capa3,
   "Esri Satélite": capaEsriSat,
   "Esri Topográfico": capaEsriTopo,
   "Carto Light": capaCartoLight,
@@ -164,7 +172,7 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-  "Cuencas INEGI": capaCuencas
+  "Áreas de concentración pozos INEGI Aguas Subterráneas 1:250 000 (1996-2008)": capaCuencas
 };
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
