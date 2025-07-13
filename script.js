@@ -201,12 +201,12 @@ var capaCuencas = L.tileLayer.wms('https://gaia.inegi.org.mx/NLB/tunnel/wms/wms6
 // =============================
 var baseMaps = {
   "Claro Stadia": capa1,
-  "OSM": capa2,
   "Oscuro Stadia": capa3,
   "Esri Satélite": capaEsriSat,
   "Esri Topográfico": capaEsriTopo,
   "Carto Light": capaCartoLight,
-  "Carto Dark": capaCartoDark
+  "Carto Dark": capaCartoDark,
+  "OSM": capa2
 };
 
 var overlayMaps = {
