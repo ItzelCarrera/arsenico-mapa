@@ -1,0 +1,161 @@
+/* ==== Reset y estructura general ==== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==== Mapa principal ==== */
+#map {
+  flex: 1;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+}
+
+/* ==== Título centrado sobre el mapa ==== */
+#titulo-mapa {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: sans-serif;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+#titulo-mapa h2 {
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* ==== Logos en el mapa ==== */
+#logos {
+  position: absolute;
+  bottom: 400px; /* Ajusta según necesidad */
+  left: 10px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 4px 6px;
+  border-radius: 5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-shadow: 0 0 4px rgba(0,0,0,0.3);
+}
+
+#logos img {
+  height: 45px;
+  max-width: 60px;
+  object-fit: contain;
+}
+
+/* ==== Leyenda ==== */
+.legend {
+  background: white;
+  padding: 10px;
+  line-height: 1.4em;
+  border-radius: 5px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}
+
+.legend span {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+/* Colores de zonas */
+.color-rojo { background: red; }
+.color-azul { background: blue; }
+.color-verde { background: green; }
+
+/* ==== Etiquetas de zonas ==== */
+.zona-label {
+  font-size: 14px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ==== Panel de información ==== */
+.info-box {
+  background: white;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  font-size: 13px;
+  max-width: 230px;
+  line-height: 1.4em;
+}
+
+/* ==== Estilo del minimapa ==== */
+.leaflet-control-minimap {
+  border: 1px solid #ccc;
+}
+
+/* ==== Botón imprimir (si se usa easyButton) ==== */
+.leaflet-control.easy-button-button {
+  background-color: white !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  font-size: 16px;
+  padding: 6px;
+}
+.leaflet-control.easy-button-button img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+
+/* ==== Responsive para móviles ==== */
+@media (max-width: 768px) {
+  #titulo-mapa h2 {
+    font-size: 14px;
+  }
+
+  #logos img {
+    height: 28px;
+    max-width: 40px;
+  }
+
+  #logos {
+    flex-direction: column;
+    gap: 4px;
+    bottom: 160px;
+    left: 5px;
+    padding: 4px;
+  }
+
+  .info-box, .legend {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .leaflet-control-minimap {
+    display: none;
+  }
+
+  .leaflet-control.easy-button-button img {
+    width: 20px;
+    height: 20px;
+  }
+}
