@@ -2,7 +2,6 @@
 // Configuración Inicial del Mapa
 // =============================
 
-// Capas base
 var capa1 = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=2b965822-ba3f-4bff-9fdd-f1038c96fb9f', {
   maxZoom: 20,
   attribution: '&copy; Stadia Maps, &copy; OpenMapTiles, &copy; OpenStreetMap'
@@ -32,54 +31,47 @@ var capaCartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/
 var map = L.map('map', {
   center: [28.67, -106.1],
   zoom: 11,
-  layers: [capa1] // capa inicial
+  layers: [capa1]
 });
 
 // =============================
-// Minimapa Mejorado
+// Minimapa
 // =============================
-var miniMapLayer = capa2; // Capa inicial para el minimapa
+var miniMapLayer = capa2;
 var miniMap = new L.Control.MiniMap(miniMapLayer, {
-    toggleDisplay: true,
-    minimized: false,
-    position: 'bottomleft',
-    aimingRectOptions: {
-        color: "#ff7800",
-        weight: 1,
-        clickable: false
-    },
-    shadowRectOptions: {
-        color: "#000000",
-        weight: 1,
-        clickable: false,
-        opacity: 0,
-        fillOpacity: 0
-    },
-    width: 150,
-    height: 150,
-    zoomLevelOffset: -5
+  toggleDisplay: true,
+  minimized: false,
+  position: 'bottomleft',
+  aimingRectOptions: {
+    color: "#ff7800",
+    weight: 1,
+    clickable: false
+  },
+  shadowRectOptions: {
+    color: "#000000",
+    weight: 1,
+    clickable: false,
+    opacity: 0,
+    fillOpacity: 0
+  },
+  width: 150,
+  height: 150,
+  zoomLevelOffset: -5
 }).addTo(map);
 
-// Actualizar el minimapa cuando cambia la capa base
 map.on('baselayerchange', function(e) {
-    // Para capas normales (no WMS)
-    if (e.layer instanceof L.TileLayer && !(e.layer instanceof L.TileLayer.WMS)) {
-        // Clonar la capa para el minimapa
-        var newLayer = L.tileLayer(e.layer._url, {
-            attribution: e.layer.options.attribution,
-            maxZoom: e.layer.options.maxZoom
-        });
-        
-        // Cambiar la capa del minimapa
-        miniMap.changeLayer(newLayer);
-        
-        // Ajustar visualización para capas oscuras
-        if (e.name.includes('Oscuro') || e.name.includes('Dark')) {
-            miniMap.getContainer().style.filter = 'invert(1) hue-rotate(180deg) brightness(1.1)';
-        } else {
-            miniMap.getContainer().style.filter = 'none';
-        }
+  if (e.layer instanceof L.TileLayer && !(e.layer instanceof L.TileLayer.WMS)) {
+    var newLayer = L.tileLayer(e.layer._url, {
+      attribution: e.layer.options.attribution,
+      maxZoom: e.layer.options.maxZoom
+    });
+    miniMap.changeLayer(newLayer);
+    if (e.name.includes('Oscuro') || e.name.includes('Dark')) {
+      miniMap.getContainer().style.filter = 'invert(1) hue-rotate(180deg) brightness(1.1)';
+    } else {
+      miniMap.getContainer().style.filter = 'none';
     }
+  }
 });
 
 // =============================
@@ -131,8 +123,9 @@ puntos.forEach(function(punto) {
 
     let contenido = `
       <b>${punto.nombre}</b><br>
-      <b>Límite permisible:</b> <span style="color:orange">10 µg/L</span><br>
+      <i>Análisis por ICP-OES</i><br>
       <b>Concentración As:</b> <span style="color:${colorAs}">${ars} µg/L</span><br>
+      <b>Límite permisible:</b> <span style="color:orange">10 µg/L</span><br>
     `;
 
     if (ars_lluvias !== undefined) {
@@ -179,6 +172,14 @@ var legend = L.control({ position: 'bottomright' });
 legend.onAdd = function () {
   var div = L.DomUtil.create('div', 'legend');
   div.innerHTML += "<strong>Leyenda</strong><br>";
+  div.innerHTML += `
+    <div style="margin: 6px 0;">
+      <span style="display:inline-block; width: 12px; height: 2px; background: red; margin-right: 2px;"></span>
+      <span style="display:inline-block; width: 12px; height: 2px; background: blue; margin-right: 2px;"></span>
+      <span style="display:inline-block; width: 12px; height: 2px; background: green; margin-right: 6px;"></span>
+      Radio de 2 km de muestreo
+    </div>
+  `;
   div.innerHTML += "<span class='color-rojo'></span> Zona A (Norte)<br>";
   div.innerHTML += "<span class='color-azul'></span> Zona B (Centro)<br>";
   div.innerHTML += "<span class='color-verde'></span> Zona C (Sur)<br>";

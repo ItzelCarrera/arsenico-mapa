@@ -14,7 +14,7 @@ body {
 /* ==== Mapa principal ==== */
 #map {
   width: 100%;
-  height: 100vh; /* Asegura que el mapa cubra toda la pantalla */
+  height: 100vh;
   position: relative;
   z-index: 0;
 }
@@ -31,7 +31,6 @@ body {
   border-radius: 6px;
   font-family: sans-serif;
   box-shadow: 0 0 5px rgba(0,0,0,0.3);
-  /* Animación solo para móviles */
   animation: mostrarOcultar 5s forwards;
 }
 
@@ -56,7 +55,7 @@ body {
 /* ==== Logos en el mapa ==== */
 #logos {
   position: absolute;
-  bottom: 400px; /* Ajusta según necesidad */
+  bottom: 400px;
   left: 10px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.85);
@@ -93,7 +92,6 @@ body {
   border-radius: 50%;
 }
 
-/* Colores de zonas */
 .color-rojo { background: red; }
 .color-azul { background: blue; }
 .color-verde { background: green; }
@@ -202,27 +200,5 @@ body {
   font-size: 14px;
   font-style: italic;
   text-align: center;
-  font-weight: normal; /* Asegura que no tenga negritas */
+  font-weight: normal;
 }
-
-/* Animación para móviles (temporalmente) */
-@keyframes mostrarOcultar {
-  0%, 80% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(100%);
-    visibility: hidden;
-  }
-}
-
-/* Mostrar solo temporalmente en móviles */
-@media (max-width: 768px) {
-  #pie-pagina {
-    display: block;
-    animation: mostrarOcultar 5s forwards;
-  }
-}
-
