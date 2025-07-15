@@ -202,3 +202,25 @@ body {
   text-align: center;
   font-weight: normal;
 }
+
+/* Animación para móviles (temporalmente) */
+@keyframes mostrarOcultar {
+  0%, 80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(100%);
+    visibility: hidden;
+  }
+}
+
+/* Mostrar solo temporalmente en móviles */
+@media (max-width: 768px) {
+  #pie-pagina {
+    display: block;
+    animation: mostrarOcultar 5s forwards;
+  }
+}
+
